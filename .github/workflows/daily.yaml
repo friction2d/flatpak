@@ -41,7 +41,8 @@ jobs:
         run: |
           flatpak build-update-repo repo
           cp *.flatpakref *.flatpakrepo repo/ || true
-          touch repo/.nojekyll
+          cp README.md repo/index.md || true
+          cp _config.yml repo/ || true
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
