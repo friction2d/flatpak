@@ -2,3 +2,4 @@ build-dir
 .flatpak-builder
 *.swp
 repo
+*.flatpak
