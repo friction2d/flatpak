@@ -2,57 +2,81 @@ name: Daily Rolling Build
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 2 * * 1,3,6'
   workflow_dispatch:
 
 jobs:
-  rolling-build:
+  build-stable:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    
-    container:
-      image: fedora:latest
-      options: --privileged --dns 8.8.8.8
-
+    container: { image: "fedora:latest", options: "--privileged" }
     steps:
       - name: Install dependencies
         run: dnf install -y flatpak flatpak-builder git rsync
-
-      - name: Checkout manifest
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Add Flathub
         run: |
           for i in {1..5}; do
             flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && break || \
             echo "Retry $i: Failed to connect to Flathub, retrying in 5s..." && sleep 5;
           done
-
-      - name: Build and Export Stable
+      - name: Build Stable
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
-          export FLATPAK_BUILDER_CACHE_DIR=.cache-stable
-          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-stable graphics.friction.Friction.json --default-branch=main
-          flatpak build-export repo build-dir-stable main
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=main
+          flatpak build-export repo build-dir main
+      - name: Upload Stable Repo
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-stable
+          path: repo/
 
-      - name: Build and Export Nightly
+  build-nightly:
+    runs-on: ubuntu-latest
+    container: { image: "fedora:latest", options: "--privileged" }
+    steps:
+      - name: Install dependencies
+        run: dnf install -y flatpak flatpak-builder git rsync
+      - uses: actions/checkout@v4
+      - name: Add Flathub
+        run: |
+          for i in {1..5}; do
+            flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && break || \
+            echo "Retry $i: Failed to connect to Flathub, retrying in 5s..." && sleep 5;
+          done
+      - name: Build Nightly
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
-          export FLATPAK_BUILDER_CACHE_DIR=.cache-nightly
-          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-nightly graphics.friction.Friction.json --default-branch=nightly
-          flatpak build-export repo build-dir-nightly nightly
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=nightly
+          flatpak build-export repo build-dir nightly
+      - name: Upload Nightly Repo
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-nightly
+          path: repo/
 
-      - name: Finalize and Deploy
+  deploy:
+    needs: [build-stable, build-nightly]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Stable
+        uses: actions/download-artifact@v4
+        with: { name: repo-stable, path: final-repo }
+      - name: Download Nightly
+        uses: actions/download-artifact@v4
+        with: { name: repo-nightly, path: final-repo }
+      - name: Finalize
         run: |
-          flatpak build-update-repo repo
-          cp *.flatpakref *.flatpakrepo repo/ || true
-          cp README.md repo/index.md || true
-          cp _config.yml repo/ || true
-
-      - name: Deploy to GitHub Pages
+          flatpak build-update-repo final-repo
+          cp *.flatpakref *.flatpakrepo final-repo/
+          cp README.md final-repo/index.md
+          cp _config.yml final-repo/
+          cp CNAME final-repo/
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: repo
+          folder: final-repo
           branch: gh-pages
           clean: true
