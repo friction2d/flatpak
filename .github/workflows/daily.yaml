@@ -13,7 +13,7 @@ jobs:
     
     container:
       image: fedora:latest
-      options: --privileged
+      options: --privileged --dns 8.8.8.8
 
     steps:
       - name: Install dependencies
@@ -23,7 +23,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Add Flathub
-        run: flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+        run: |
+          for i in {1..5}; do
+            flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && break || \
+            echo "Retry $i: Failed to connect to Flathub, retrying in 5s..." && sleep 5;
+          done
 
       - name: Build and Export Stable
         run: |
