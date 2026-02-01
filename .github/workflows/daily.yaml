@@ -32,13 +32,15 @@ jobs:
       - name: Build and Export Stable
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
-          flatpak-builder --user --install-deps-from=flathub --force-clean --ccache-dir=.stable-cache build-dir-stable graphics.friction.Friction.json --default-branch=main
+          export FLATPAK_BUILDER_CACHE_DIR=.cache-stable
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-stable graphics.friction.Friction.json --default-branch=main
           flatpak build-export repo build-dir-stable main
 
       - name: Build and Export Nightly
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
-          flatpak-builder --user --install-deps-from=flathub --force-clean --ccache-dir=.nightly-cache build-dir-nightly graphics.friction.Friction.json --default-branch=nightly
+          export FLATPAK_BUILDER_CACHE_DIR=.cache-nightly
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-nightly graphics.friction.Friction.json --default-branch=nightly
           flatpak build-export repo build-dir-nightly nightly
 
       - name: Finalize and Deploy
