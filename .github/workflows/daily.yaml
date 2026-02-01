@@ -33,7 +33,7 @@ jobs:
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-stable graphics.friction.Friction.json --default-branch=main
-          flatpak build-export --strip repo build-dir-stable main
+          flatpak build-export repo build-dir-stable main
 
       - name: Build and Export Nightly
         run: |
@@ -41,7 +41,7 @@ jobs:
           find .flatpak-builder -name rofiles -exec fusermount -u {} \; || true
           rm -rf .flatpak-builder
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-nightly graphics.friction.Friction.json --default-branch=nightly
-          flatpak build-export --strip repo build-dir-nightly nightly
+          flatpak build-export repo build-dir-nightly nightly
 
       - name: Finalize and Deploy
         run: |

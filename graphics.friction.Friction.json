@@ -19,6 +19,7 @@
     ],
     "build-options": {
         "no-debuginfo": true,
+        "strip": true,
         "append-pkg-config-path": "/app/lib/pkgconfig"
     },
     "cleanup": [
