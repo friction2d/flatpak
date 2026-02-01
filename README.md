@@ -29,11 +29,7 @@ title: Friction Flatpak Repository
   pre { overflow: hidden !important;white-space: pre-wrap !important;word-wrap: break-word !important; }
 </style>
 
-This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide rolling releases for both the **stable** (`v1.0`) and **nightly** (`main`) branches, built directly from [source](https://github.com/friction2d/friction).
-
-By providing our own Flatpak repository, we deliver the latest features and bug fixes directly to you, independent of release cycles or third-party.
-
-Updates are automated and run every **Monday**, **Wednesday**, and **Saturday** at **02:00 UTC**. Build time is ~40min.
+This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide rolling releases for both the **stable** (`v1.0`) and **nightly** (`main`) branch, built directly from [source](https://github.com/friction2d/friction) every **Monday**, **Wednesday**, and **Saturday** at **02:00 UTC**.
 
 <div class="button-container">
   <a href="https://flatpak.friction.graphics/friction-stable.flatpakref" class="btn-install btn-stable">
@@ -48,7 +44,7 @@ Updates are automated and run every **Monday**, **Wednesday**, and **Saturday** 
 
 * Up-to-Date Shared Runtimes
 * Enhanced Security
-* Full Desktop Integration
+* Desktop Integration
 * Efficient Updates
 
 ---
