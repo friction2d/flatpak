@@ -1,0 +1,2 @@
+# flatpak
+Friction Flatpak Repository
