@@ -90,7 +90,7 @@ jobs:
         with: { name: repo-nightly, path: final-repo }
       - name: Finalize
         run: |
-          flatpak build-update-repo --gpg-sign=${{ env.GPG_KEY_ID }} --collection-id=graphics.friction.Friction final-repo
+          flatpak build-update-repo --gpg-sign=${{ env.GPG_KEY_ID }} final-repo
           cp *.flatpakref *.flatpakrepo final-repo/
           cp README.md final-repo/index.md
           cp _config.yml final-repo/
