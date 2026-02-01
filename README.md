@@ -26,6 +26,7 @@ title: Friction Flatpak Repository
   hr { background-color: #30363d !important; height: 1px; border: 0; }
   wrapper { border-color: #30363d !important; }
   .highlight { background-color: unset !important; }
+  pre { overflow: hidden !important;white-space: pre-wrap !important;word-wrap: break-word !important; }
 </style>
 
 This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide rolling releases for both the **stable** (`v1.0`) and **nightly** (`main`) branches, built directly from [source](https://github.com/friction2d/friction).
