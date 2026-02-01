@@ -1,0 +1,6 @@
+[Flatpak Repo]
+Title=Friction Flatpak Repo
+Url=https://flatpak.friction.graphics/
+Homepage=https://friction.graphics/
+Comment=Official stable and nightly builds for Friction
+Icon=https://friction.graphics/assets/logo.svg

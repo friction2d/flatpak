@@ -1,0 +1,7 @@
+[Flatpak Ref]
+Title=Friction (Nightly)
+Name=graphics.friction.Friction
+Branch=nightly
+Url=https://flatpak.friction.graphics/
+IsRuntime=false
+SuggestRemoteCheck=true
