@@ -11,7 +11,7 @@ title: Friction Flatpak Repository
   .btn-subtext { display: block;font-size: 0.75em;font-weight: normal;opacity: 0.9; margin-top: .5em; }
   .view, footer, header ul, header p { display: none !important; }
   wrapper { width: auto !important;margin: 0 !important; }
-  header, section { width: auto !important;float: unset !important;position: unset !important; }
+  header, section { width: auto !important;float: unset !important;position: unset !important;border: 0 !important; }
   body {background-color: #0d1117 !important;color: #c9d1d9 !important; }
   a { color: #58a6ff !important; }
   a:hover { text-decoration: underline !important; }
