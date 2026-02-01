@@ -57,9 +57,12 @@ jobs:
   deploy:
     needs: [build-stable, build-nightly]
     runs-on: ubuntu-latest
+    container: { image: "fedora:latest", options: "--privileged" }
     permissions:
       contents: write
     steps:
+      - name: Install dependencies
+        run: dnf install -y flatpak git rsync
       - uses: actions/checkout@v4
       - name: Download Stable
         uses: actions/download-artifact@v4
