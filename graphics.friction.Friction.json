@@ -18,6 +18,7 @@
             "--filesystem=xdg-videos"
     ],
     "build-options": {
+        "no-debuginfo": true,
         "append-pkg-config-path": "/app/lib/pkgconfig"
     },
     "cleanup": [
