@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Install dependencies
-        run: dnf install -y flatpak flatpak-builder git
+        run: dnf install -y flatpak flatpak-builder git rsync
 
       - name: Checkout manifest
         uses: actions/checkout@v4
@@ -38,6 +38,7 @@ jobs:
       - name: Build and Export Nightly
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
+          rm -rf .flatpak-builder
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-nightly graphics.friction.Friction.json --default-branch=nightly
           flatpak build-export repo build-dir-nightly nightly
 
