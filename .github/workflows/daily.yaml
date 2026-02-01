@@ -11,8 +11,12 @@ jobs:
     container: { image: "fedora:latest", options: "--privileged" }
     steps:
       - name: Install dependencies
-        run: dnf install -y flatpak flatpak-builder git rsync
+        run: dnf install -y flatpak flatpak-builder git rsync gpg
       - uses: actions/checkout@v4
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "GPG_KEY_ID=$(gpg --list-keys --with-colons | grep '^pub' | head -n 1 | cut -d: -f5)" >> $GITHUB_ENV
       - name: Add Flathub
         run: |
           for i in {1..5}; do
@@ -23,7 +27,10 @@ jobs:
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=main
-          flatpak build-export repo build-dir main
+          flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} --gpg-homedir=/root/.gnupg repo build-dir main
+      - name: Cleanup
+        if: always()
+        run: rm -rf /root/.gnupg
       - name: Upload Stable Repo
         uses: actions/upload-artifact@v4
         with:
@@ -35,8 +42,12 @@ jobs:
     container: { image: "fedora:latest", options: "--privileged" }
     steps:
       - name: Install dependencies
-        run: dnf install -y flatpak flatpak-builder git rsync
+        run: dnf install -y flatpak flatpak-builder git rsync gpg
       - uses: actions/checkout@v4
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "GPG_KEY_ID=$(gpg --list-keys --with-colons | grep '^pub' | head -n 1 | cut -d: -f5)" >> $GITHUB_ENV
       - name: Add Flathub
         run: |
           for i in {1..5}; do
@@ -47,7 +58,10 @@ jobs:
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=nightly
-          flatpak build-export repo build-dir nightly
+          flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} --gpg-homedir=/root/.gnupg repo build-dir nightly
+      - name: Cleanup
+        if: always()
+        run: rm -rf /root/.gnupg
       - name: Upload Nightly Repo
         uses: actions/upload-artifact@v4
         with:
@@ -62,8 +76,12 @@ jobs:
       contents: write
     steps:
       - name: Install dependencies
-        run: dnf install -y flatpak git rsync
+        run: dnf install -y flatpak git rsync gpg
       - uses: actions/checkout@v4
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "GPG_KEY_ID=$(gpg --list-keys --with-colons | grep '^pub' | head -n 1 | cut -d: -f5)" >> $GITHUB_ENV
       - name: Download Stable
         uses: actions/download-artifact@v4
         with: { name: repo-stable, path: final-repo }
@@ -72,11 +90,14 @@ jobs:
         with: { name: repo-nightly, path: final-repo }
       - name: Finalize
         run: |
-          flatpak build-update-repo final-repo
+          flatpak build-update-repo --gpg-sign=${{ env.GPG_KEY_ID }} --gpg-homedir=/root/.gnupg --collection-id=graphics.friction.Friction final-repo
           cp *.flatpakref *.flatpakrepo final-repo/
           cp README.md final-repo/index.md
           cp _config.yml final-repo/
           cp CNAME final-repo/
+      - name: Cleanup
+        if: always()
+        run: rm -rf /root/.gnupg
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
