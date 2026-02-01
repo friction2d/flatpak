@@ -2,4 +2,3 @@
 repo_version=1
 mode=archive-z2
 indexed-deltas=true
-collection-id=graphics.friction.Friction
