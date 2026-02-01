@@ -1,0 +1,51 @@
+name: Daily Rolling Build
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  rolling-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    container:
+      image: fedora:latest
+      options: --privileged
+
+    steps:
+      - name: Install dependencies
+        run: dnf install -y flatpak flatpak-builder git
+
+      - name: Checkout manifest
+        uses: actions/checkout@v4
+
+      - name: Add Flathub
+        run: flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Build and Export Stable
+        run: |
+          sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-stable graphics.friction.Friction.json --no-debuginfo --strip --default-branch=main
+          flatpak build-export repo build-dir-stable main
+
+      - name: Build and Export Nightly
+        run: |
+          sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir-nightly graphics.friction.Friction.json --no-debuginfo --strip --default-branch=nightly
+          flatpak build-export repo build-dir-nightly nightly
+
+      - name: Finalize and Deploy
+        run: |
+          flatpak build-update-repo repo
+          cp *.flatpakref *.flatpakrepo repo/ || true
+          touch repo/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: repo
+          branch: gh-pages
+          clean: true

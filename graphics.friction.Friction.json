@@ -1,0 +1,164 @@
+{
+    "app-id": "graphics.friction.Friction",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.15-25.08",
+    "sdk": "org.kde.Sdk",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.llvm20"
+    ],
+    "command": "friction",
+    "finish-args": [
+            "--share=ipc",
+            "--socket=fallback-x11",
+            "--socket=wayland",
+            "--socket=pulseaudio",
+            "--device=dri",
+            "--filesystem=xdg-documents",
+            "--filesystem=xdg-pictures",
+            "--filesystem=xdg-videos"
+    ],
+    "build-options": {
+        "append-pkg-config-path": "/app/lib/pkgconfig"
+    },
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig"
+    ],
+    "modules": [
+        {
+            "name": "x264",
+            "config-opts": [
+                "--enable-shared",
+                "--enable-pic",
+                "--disable-cli"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://code.videolan.org/videolan/x264.git",
+                    "commit": "31e19f92f00c7003fa115047ce50978bc98c3a0d"
+                }
+            ]
+        },
+        {
+            "name": "x265",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "subdir": "source",
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DENABLE_CLI=OFF",
+                "-DENABLE_SHARED=ON",
+                "-DENABLE_LIBNUMA=OFF"
+            ],
+            "cleanup": [
+                "/lib/libx265.a"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://bitbucket.org/multicoreware/x265_git.git",
+                    "commit": "9e551a994f970a24f0e49bcebe3d43ef08448b01"
+                }
+            ]
+        },
+        {
+            "name": "xvidcore",
+            "subdir": "build/generic",
+            "buildsystem": "autotools",
+            "build-options": {
+                "cflags": "-std=c17"
+            },
+            "cleanup": [
+                "/lib/libxvidcore.a"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://downloads.xvid.com/downloads/xvidcore-1.3.7.tar.gz",
+                    "sha256": "abbdcbd39555691dd1c9b4d08f0a031376a3b211652c0d8b3b8aa9be1303ce2d"
+                }
+            ]
+        },
+        {
+            "name": "ffmpeg",
+            "config-opts": [
+                "--enable-shared",
+                "--disable-static",
+                "--disable-xlib",
+                "--disable-libxcb",
+                "--disable-libv4l2",
+                "--disable-alsa",
+                "--disable-network",
+                "--disable-programs",
+                "--disable-debug",
+                "--disable-doc",
+                "--enable-avresample",
+                "--enable-gpl",
+                "--enable-version3",
+                "--enable-libmp3lame",
+                "--enable-libtheora",
+                "--enable-libvorbis",
+                "--enable-libvpx",
+                "--enable-libx264",
+                "--enable-libaom",
+                "--enable-libx265",
+                "--enable-libxvid"
+            ],
+            "cleanup": [
+                "/share/ffmpeg/examples"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/friction2d/ffmpeg.git",
+                    "commit": "44b01dbdbe3a742b5d006a7187b63a8a30293a45"
+                }
+            ]
+        },
+        {
+            "name": "qscintilla",
+            "buildsystem": "simple",
+            "subdir": "src",
+            "build-commands": [
+                "qmake qscintilla.pro",
+                "make -j$FLATPAK_BUILDER_N_JOBS",
+                "mkdir -p /app/lib /app/include",
+                "cp -a libqscintilla2_qt5.so* /app/lib/",
+                "cp -a Qsci /app/include/"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/friction2d/qscintilla.git",
+                    "commit": "f9bcb04071bc9b849721b054fcb0f2eec99de94a"
+                }
+            ]
+        },
+        {
+            "name": "friction",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "build-options": {
+                "append-path": "/usr/lib/sdk/llvm20/bin",
+                "append-ld-library-path": "/usr/lib/sdk/llvm20/lib"
+            },
+            "config-opts": [
+                "-DFRICTION_OFFICIAL_RELEASE=ON",
+                "-DCMAKE_CXX_COMPILER=clang++",
+                "-DCMAKE_C_COMPILER=clang",
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_INSTALL_LIBDIR=lib",
+                "-DQSCINTILLA_LIBRARIES_DIRS=/app/lib",
+                "-DQSCINTILLA_INCLUDE_DIRS=/app/include"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/friction2d/friction.git",
+                    "branch": "main"
+                }
+            ]
+        }
+    ]
+}
