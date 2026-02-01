@@ -15,7 +15,9 @@
             "--device=dri",
             "--filesystem=xdg-documents",
             "--filesystem=xdg-pictures",
-            "--filesystem=xdg-videos"
+            "--filesystem=xdg-videos",
+            "--talk-name=com.canonical.AppMenu.Registrar",
+            "--system-talk-name=com.canonical.AppMenu.Registrar"
     ],
     "build-options": {
         "no-debuginfo": true,
