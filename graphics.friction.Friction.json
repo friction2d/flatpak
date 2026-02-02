@@ -19,6 +19,10 @@
             "--talk-name=com.canonical.AppMenu.Registrar",
             "--system-talk-name=com.canonical.AppMenu.Registrar"
     ],
+    "env": {
+        "QT_QPA_PLATFORM": "wayland;xcb",
+        "QT_XCB_GL_INTEGRATION": "xcb_egl"
+    },
     "build-options": {
         "no-debuginfo": true,
         "strip": true,
