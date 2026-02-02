@@ -7,7 +7,7 @@ title: Friction Flatpak Repository
   .btn-install {padding: 1em 2em;color: white !important;text-decoration: none !important;border-radius: .5em;font-weight: bold;display: inline-block;transition: transform 0.2s, background-color 0.2s;text-align: center;min-width: 180px; }
   .btn-install:hover { transform: translateY(-2px); filter: brightness(1.1); }
   .btn-stable { background-color: #28a745; }
-  .btn-nightly { background-color: #dc3545; }
+  .btn-devel { background-color: #dc3545; }
   .btn-subtext { display: block;font-size: 0.75em;font-weight: normal;opacity: 0.9; margin-top: .5em; }
   .view, footer, header ul, header p, header h1 { display: none !important; }
   wrapper { width: auto !important;margin: 0 !important; }
@@ -29,16 +29,16 @@ title: Friction Flatpak Repository
   pre { overflow: hidden !important;white-space: pre-wrap !important;word-wrap: break-word !important; }
 </style>
 
-This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide rolling releases for both the **stable** (`v1.0`) and **nightly** (`main`) branch, built directly from [source](https://github.com/friction2d/friction) every **Monday**, **Wednesday**, and **Saturday** at **02:00 UTC**.
+This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide rolling releases for **stable** and **devel**, built directly from [source](https://github.com/friction2d/friction) every **Monday**, **Wednesday**, and **Saturday** at **02:00 UTC**.
 
 <div class="button-container">
   <a href="https://flatpak.friction.graphics/friction-stable.flatpakref" class="btn-install btn-stable">
     Stable
-    <span class="btn-subtext">Recommended (v1.0 branch)</span>
+    <span class="btn-subtext">Recommended</span>
   </a>
-  <a href="https://flatpak.friction.graphics/friction-nightly.flatpakref" class="btn-install btn-nightly">
-    Nightly
-    <span class="btn-subtext">Cutting-edge (main branch)</span>
+  <a href="https://flatpak.friction.graphics/friction-devel.flatpakref" class="btn-install btn-devel">
+    Devel
+    <span class="btn-subtext">Cutting-edge</span>
   </a>
 </div>
 
@@ -52,17 +52,7 @@ This is the official Flatpak repository for [**Friction**](https://friction.grap
 If you prefer the command line, follow these steps:
 
 ```
-flatpak remote-add --if-not-exists friction-repo https://flatpak.friction.graphics/friction.flatpakrepo
-```
-
-#### Stable
-
-```
-flatpak install friction-repo graphics.friction.Friction
-```
-
-#### Nightly
-
-```
-flatpak install friction-repo graphics.friction.Friction//nightly
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --user --if-not-exists friction https://flatpak.friction.graphics/friction.flatpakrepo
+flatpak install --user friction graphics.friction.Friction
 ```
