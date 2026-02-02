@@ -52,17 +52,7 @@ This is the official Flatpak repository for [**Friction**](https://friction.grap
 If you prefer the command line, follow these steps:
 
 ```
-flatpak remote-add --if-not-exists friction-repo https://flatpak.friction.graphics/friction.flatpakrepo
-```
-
-#### Stable
-
-```
-flatpak install friction-repo graphics.friction.Friction
-```
-
-#### Nightly
-
-```
-flatpak install friction-repo graphics.friction.Friction//nightly
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --user --if-not-exists friction https://flatpak.friction.graphics/friction.flatpakrepo
+flatpak install --user friction graphics.friction.Friction
 ```
