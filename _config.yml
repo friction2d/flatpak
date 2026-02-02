@@ -1,5 +1,5 @@
 remote_theme: pages-themes/minimal@v0.2.0
 title: Friction Flatpak Repository
-description: Official stable and nightly builds for Friction.
+description: Official stable and devel builds for Friction.
 show_downloads: false
 logo: https://friction.graphics/assets/logo.svg
