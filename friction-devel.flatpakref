@@ -1,7 +1,7 @@
 [Flatpak Ref]
-Title=Friction (Nightly)
+Title=Friction (Devel)
 Name=graphics.friction.Friction
-Branch=nightly
+Branch=devel
 Url=https://flatpak.friction.graphics/
 IsRuntime=false
 SuggestRemoteCheck=true

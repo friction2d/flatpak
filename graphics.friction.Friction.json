@@ -16,8 +16,7 @@
             "--filesystem=xdg-documents",
             "--filesystem=xdg-pictures",
             "--filesystem=xdg-videos",
-            "--talk-name=com.canonical.AppMenu.Registrar",
-            "--system-talk-name=com.canonical.AppMenu.Registrar"
+            "--talk-name=com.canonical.AppMenu.Registrar"
     ],
     "env": {
         "QT_QPA_PLATFORM": "wayland;xcb",

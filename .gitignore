@@ -3,3 +3,4 @@ build-dir
 *.swp
 repo
 *.flatpak
+tmp

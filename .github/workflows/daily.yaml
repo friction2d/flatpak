@@ -1,4 +1,4 @@
-name: Daily Rolling Build
+name: Rolling Build
 
 on:
   schedule:
@@ -37,7 +37,7 @@ jobs:
           name: repo-stable
           path: repo/
 
-  build-nightly:
+  build-devel:
     runs-on: ubuntu-latest
     container: { image: "fedora:latest", options: "--privileged" }
     steps:
@@ -54,22 +54,22 @@ jobs:
             flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && break || \
             echo "Retry $i: Failed to connect to Flathub, retrying in 5s..." && sleep 5;
           done
-      - name: Build Nightly
+      - name: Build Devel
         run: |
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
-          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=nightly
-          flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir nightly
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=devel
+          flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir devel
       - name: Cleanup
         if: always()
         run: rm -rf /github/home/.gnupg
-      - name: Upload Nightly Repo
+      - name: Upload Devel Repo
         uses: actions/upload-artifact@v4
         with:
-          name: repo-nightly
+          name: repo-devel
           path: repo/
 
   deploy:
-    needs: [build-stable, build-nightly]
+    needs: [build-stable, build-devel]
     runs-on: ubuntu-latest
     container: { image: "fedora:latest", options: "--privileged" }
     permissions:
@@ -85,14 +85,14 @@ jobs:
       - name: Download Stable
         uses: actions/download-artifact@v4
         with: { name: repo-stable, path: final-repo }
-      - name: Download Nightly
+      - name: Download Devel
         uses: actions/download-artifact@v4
-        with: { name: repo-nightly, path: final-repo }
+        with: { name: repo-devel, path: final-repo }
       - name: Finalize
         run: |
           flatpak build-update-repo --gpg-sign=${{ env.GPG_KEY_ID }} final-repo
           cp *.flatpakref *.flatpakrepo final-repo/
-          cp README.md final-repo/index.md
+          cp index.md final-repo/
           cp _config.yml final-repo/
           cp CNAME final-repo/
       - name: Cleanup
