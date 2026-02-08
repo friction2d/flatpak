@@ -26,8 +26,8 @@ jobs:
       - name: Build Stable
         run: |
           git config --global --add safe.directory /__w/flatpak/flatpak
-          export GIT_COMMIT=$(git rev-parse --short=8 HEAD)
-          export GIT_BRANCH=${GITHUB_REF_NAME}
+          echo "GIT_COMMIT=$(git rev-parse --short=8 HEAD)" >> $GITHUB_ENV
+          echo "GIT_BRANCH=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=main
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir main
@@ -60,8 +60,8 @@ jobs:
       - name: Build Devel
         run: |
           git config --global --add safe.directory /__w/flatpak/flatpak
-          export GIT_COMMIT=$(git rev-parse --short=8 HEAD)
-          export GIT_BRANCH=${GITHUB_REF_NAME}
+          echo "GIT_COMMIT=$(git rev-parse --short=8 HEAD)" >> $GITHUB_ENV
+          echo "GIT_BRANCH=${GITHUB_REF_NAME}" >> $GITHUB_ENV
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=devel
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir devel
