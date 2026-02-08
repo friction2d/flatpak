@@ -153,9 +153,7 @@
                 "-DCMAKE_BUILD_TYPE=Release",
                 "-DCMAKE_INSTALL_LIBDIR=lib",
                 "-DQSCINTILLA_LIBRARIES_DIRS=/app/lib",
-                "-DQSCINTILLA_INCLUDE_DIRS=/app/include",
-                "-DGIT_COMMIT=${GIT_COMMIT}",
-                "-DGIT_BRANCH=${GIT_BRANCH}"
+                "-DQSCINTILLA_INCLUDE_DIRS=/app/include"
             ],
             "sources": [
                 {

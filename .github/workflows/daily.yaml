@@ -25,12 +25,8 @@ jobs:
           done
       - name: Build Stable
         run: |
-          git config --global --add safe.directory /__w/flatpak/flatpak
-          COMMIT_ID=$(git rev-parse --short=8 HEAD)
-          BRANCH_ID=${GITHUB_REF_NAME}
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
-          echo "Building commit: $COMMIT_ID on branch: $BRANCH_ID"
-          GIT_COMMIT=$COMMIT_ID GIT_BRANCH=$BRANCH_ID flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=main
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=main
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir main
       - name: Cleanup
         if: always()
@@ -60,12 +56,8 @@ jobs:
           done
       - name: Build Devel
         run: |
-          git config --global --add safe.directory /__w/flatpak/flatpak
-          COMMIT_ID=$(git rev-parse --short=8 HEAD)
-          BRANCH_ID=${GITHUB_REF_NAME}
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
-          echo "Building commit: $COMMIT_ID on branch: $BRANCH_ID"
-          GIT_COMMIT=$COMMIT_ID GIT_BRANCH=$BRANCH_ID flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=devel
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=devel
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir devel
       - name: Cleanup
         if: always()
