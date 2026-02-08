@@ -26,10 +26,10 @@ jobs:
       - name: Build Stable
         run: |
           git config --global --add safe.directory /__w/flatpak/flatpak
-          echo "SHORT_SHA=$(git rev-parse --short=8 HEAD)" >> $GITHUB_ENV
-          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          GIT_SHA=$(git rev-parse --short=8 HEAD)
+          GIT_REF=${GITHUB_REF_NAME}
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
-          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir --build-args=GIT_COMMIT=${{ env.SHORT_SHA }},GIT_BRANCH=${{ env.BRANCH_NAME }} graphics.friction.Friction.json --default-branch=main
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir --build-arg=GIT_COMMIT=${GIT_SHA} --build-arg=GIT_BRANCH=${GIT_REF} graphics.friction.Friction.json --default-branch=main
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir main
       - name: Cleanup
         if: always()
@@ -60,10 +60,10 @@ jobs:
       - name: Build Devel
         run: |
           git config --global --add safe.directory /__w/flatpak/flatpak
-          echo "SHORT_SHA=$(git rev-parse --short=8 HEAD)" >> $GITHUB_ENV
-          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          GIT_SHA=$(git rev-parse --short=8 HEAD)
+          GIT_REF=${GITHUB_REF_NAME}
           sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
-          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir --build-args=GIT_COMMIT=${{ env.SHORT_SHA }},GIT_BRANCH=${{ env.BRANCH_NAME }} graphics.friction.Friction.json --default-branch=devel
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir --build-arg=GIT_COMMIT=${GIT_SHA} --build-arg=GIT_BRANCH=${GIT_REF} graphics.friction.Friction.json --default-branch=devel
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir devel
       - name: Cleanup
         if: always()
