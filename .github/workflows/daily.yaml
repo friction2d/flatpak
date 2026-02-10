@@ -25,7 +25,8 @@ jobs:
           done
       - name: Build Stable
         run: |
-          sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "v1.0"/' graphics.friction.Friction.json
+          BUILD_ID=$(date +%Y%m%d%H%M)
+          sed -i "1s/{/{\n    \"x-build-id\": \"$BUILD_ID\",/" graphics.friction.Friction.json
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=main
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir main
       - name: Cleanup
@@ -56,7 +57,8 @@ jobs:
           done
       - name: Build Devel
         run: |
-          sed -i '/"name": "friction"/,/}/ s/"branch": ".*"/"branch": "main"/' graphics.friction.Friction.json
+          BUILD_ID=$(date +%Y%m%d%H%M)
+          sed -i "1s/{/{\n    \"x-build-id\": \"$BUILD_ID\",/" graphics.friction.Friction.json
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=devel
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir devel
       - name: Cleanup
