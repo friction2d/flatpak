@@ -1,7 +1,7 @@
 [Flatpak Ref]
 Title=Friction
 Name=graphics.friction.Friction
-Branch=main
+Branch=stable
 Url=https://flatpak.friction.graphics/
 IsRuntime=false
 SuggestRemoteCheck=true
