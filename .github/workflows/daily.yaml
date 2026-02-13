@@ -25,7 +25,7 @@ jobs:
           done
       - name: Build Stable
         run: |
-          BUILD_ID=$(date +%Y%m%d%H%M)
+          BUILD_ID=$(date +%Y%m%d)
           BRANCH_NAME="v1.0"
           sed -i "s/__BUILD__/${BUILD_ID}/g" graphics.friction.Friction.json
           sed -i "s/__BRANCH__/${BRANCH_NAME}/g" graphics.friction.Friction.json
@@ -59,7 +59,7 @@ jobs:
           done
       - name: Build Devel
         run: |
-          BUILD_ID=$(date +%Y%m%d%H%M)
+          BUILD_ID=$(date +%Y%m%d)
           BRANCH_NAME="main"
           sed -i "s/__BUILD__/${BUILD_ID}/g" graphics.friction.Friction.json
           sed -i "s/__BRANCH__/${BRANCH_NAME}/g" graphics.friction.Friction.json
