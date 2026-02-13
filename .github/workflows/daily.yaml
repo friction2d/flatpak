@@ -26,9 +26,11 @@ jobs:
       - name: Build Stable
         run: |
           BUILD_ID=$(date +%Y%m%d%H%M)
-          sed -i "1s/{/{\n    \"x-build-id\": \"$BUILD_ID\",/" graphics.friction.Friction.json
-          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=main
-          flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir main
+          BRANCH_NAME="v1.0"
+          sed -i "s/__BUILD__/${BUILD_ID}/g" graphics.friction.Friction.json
+          sed -i "s/__BRANCH__/${BRANCH_NAME}/g" graphics.friction.Friction.json
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=stable
+          flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir stable
       - name: Cleanup
         if: always()
         run: rm -rf /github/home/.gnupg
@@ -58,7 +60,9 @@ jobs:
       - name: Build Devel
         run: |
           BUILD_ID=$(date +%Y%m%d%H%M)
-          sed -i "1s/{/{\n    \"x-build-id\": \"$BUILD_ID\",/" graphics.friction.Friction.json
+          BRANCH_NAME="main"
+          sed -i "s/__BUILD__/${BUILD_ID}/g" graphics.friction.Friction.json
+          sed -i "s/__BRANCH__/${BRANCH_NAME}/g" graphics.friction.Friction.json
           flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=devel
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir devel
       - name: Cleanup

@@ -148,6 +148,7 @@
             },
             "config-opts": [
                 "-DFRICTION_OFFICIAL_RELEASE=ON",
+                "-DCUSTOM_BUILD=__BUILD__",
                 "-DCMAKE_CXX_COMPILER=clang++",
                 "-DCMAKE_C_COMPILER=clang",
                 "-DCMAKE_BUILD_TYPE=Release",
@@ -159,7 +160,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/friction2d/friction.git",
-                    "branch": "main"
+                    "branch": "__BRANCH__"
                 }
             ]
         }
