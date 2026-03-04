@@ -25,7 +25,8 @@
     },
     "cleanup": [
         "/include",
-        "/lib/pkgconfig"
+        "/lib/pkgconfig",
+        "/share/doc"
     ],
     "modules": [
         {
@@ -124,17 +125,15 @@
             "buildsystem": "simple",
             "subdir": "src",
             "build-commands": [
-                "qmake qscintilla.pro",
+                "qmake qscintilla.pro PREFIX=/app",
                 "make -j$FLATPAK_BUILDER_N_JOBS",
-                "mkdir -p /app/lib /app/include",
-                "cp -a libqscintilla2_qt5.so* /app/lib/",
-                "cp -a Qsci /app/include/"
+                "make install"
             ],
             "sources": [
                 {
                     "type": "git",
                     "url": "https://github.com/friction2d/qscintilla.git",
-                    "commit": "f9bcb04071bc9b849721b054fcb0f2eec99de94a"
+                    "commit": "1c164fbaa463efd16e54f3e36dda76d3102d2deb"
                 }
             ]
         },
