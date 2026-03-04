@@ -25,8 +25,7 @@
     },
     "cleanup": [
         "/include",
-        "/lib/pkgconfig",
-        "/share/doc"
+        "/lib/pkgconfig"
     ],
     "modules": [
         {
@@ -110,7 +109,7 @@
                 "--enable-libxvid"
             ],
             "cleanup": [
-                "/share/ffmpeg/examples"
+                "/share/ffmpeg"
             ],
             "sources": [
                 {
@@ -153,7 +152,10 @@
                 "-DCMAKE_BUILD_TYPE=Release",
                 "-DCMAKE_INSTALL_LIBDIR=lib",
                 "-DQSCINTILLA_LIBRARIES_DIRS=/app/lib",
-                "-DQSCINTILLA_INCLUDE_DIRS=/app/include"
+                "-DQSCINTILLA_INCLUDE_DIRS=/app/include",
+                "-DSKIA_USE_SYSTEM_LIBS=ON",
+                "-DSKIA_STATIC=ON",
+                "-DINSTALL_DOCS=OFF"
             ],
             "sources": [
                 {
