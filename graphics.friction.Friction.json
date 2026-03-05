@@ -150,7 +150,6 @@
                 "-DCMAKE_CXX_COMPILER=clang++",
                 "-DCMAKE_C_COMPILER=clang",
                 "-DCMAKE_BUILD_TYPE=Release",
-                "-DCMAKE_INSTALL_LIBDIR=lib",
                 "-DQSCINTILLA_LIBRARIES_DIRS=/app/lib",
                 "-DQSCINTILLA_INCLUDE_DIRS=/app/include",
                 "-DSKIA_USE_SYSTEM_LIBS=ON",
