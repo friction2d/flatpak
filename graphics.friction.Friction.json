@@ -16,6 +16,7 @@
             "--filesystem=xdg-documents",
             "--filesystem=xdg-pictures",
             "--filesystem=xdg-videos",
+            "--filesystem=xdg-music",
             "--talk-name=com.canonical.AppMenu.Registrar"
     ],
     "build-options": {
