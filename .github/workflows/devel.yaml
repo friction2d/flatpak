@@ -7,15 +7,7 @@ on:
 
 jobs:
   build-devel:
-    strategy:
-      matrix:
-        arch: [x86_64, aarch64]
-        include:
-          - arch: x86_64
-            runner: ubuntu-latest
-          - arch: aarch64
-            runner: ubuntu-24.04-arm
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
     container: { image: "fedora:latest", options: "--privileged" }
     steps:
       - name: Install Dependencies
@@ -37,7 +29,7 @@ jobs:
           BRANCH_NAME="main"
           sed -i "s/__BUILD__/${BUILD_ID}/g" graphics.friction.Friction.json
           sed -i "s/__BRANCH__/${BRANCH_NAME}/g" graphics.friction.Friction.json
-          flatpak-builder --user --arch=${{ matrix.arch }} --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=devel
+          flatpak-builder --user --install-deps-from=flathub --force-clean build-dir graphics.friction.Friction.json --default-branch=devel
           flatpak build-export --gpg-sign=${{ env.GPG_KEY_ID }} repo build-dir devel
       - name: Cleanup
         if: always()
@@ -45,7 +37,7 @@ jobs:
       - name: Upload Devel Repo
         uses: actions/upload-artifact@v4
         with:
-          name: repo-devel-${{ matrix.arch }}
+          name: repo-devel
           path: repo/
 
   deploy:
@@ -84,7 +76,7 @@ jobs:
             rsync -av --exclude='.git' old-repo/ final-repo/
           fi
 
-          for dir in fetched-repos/repo-devel-*; do
+          for dir in fetched-repos/repo-devel*; do
             if [ -d "$dir" ]; then
               rsync -av "$dir/" final-repo/
             fi
