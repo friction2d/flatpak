@@ -14,7 +14,6 @@ title: Friction Flatpak Repository
   header, section { width: auto !important;float: unset !important;position: unset !important;border: 0 !important; }
   body {background-color: #0d1117 !important;color: #c9d1d9 !important; }
   a { color: #58a6ff !important; }
-  a:hover { text-decoration: underline !important; }
   strong { color: #ffffff !important; font-weight: 600; }
   h1, h2, h3, h4 { color: #f0f6fc !important; }
   pre, code { background-color: #161b22 !important;border-color: #30363d !important;color: #e6edf3 !important; }
@@ -29,7 +28,7 @@ title: Friction Flatpak Repository
   pre { overflow: hidden !important;white-space: pre-wrap !important;word-wrap: break-word !important; }
 </style>
 
-This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide rolling releases for **stable** and **devel**, built directly from [source](https://github.com/friction2d/friction) every **Monday**, **Wednesday**, and **Saturday** at **02:00 UTC**.
+This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide rolling builds for **stable** *(v1.0)* and **devel** *(main)*.
 
 <div class="button-container">
   <a href="https://flatpak.friction.graphics/friction-stable.flatpakref" class="btn-install btn-stable">
