@@ -4,3 +4,5 @@ build-dir
 repo
 *.flatpak
 tmp
+base64.txt
+flatpak_private.key
