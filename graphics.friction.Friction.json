@@ -13,10 +13,7 @@
             "--socket=wayland",
             "--socket=pulseaudio",
             "--device=dri",
-            "--nofilesystem=xdg-config/kdeglobals",
-            "--talk-name=com.canonical.AppMenu.Registrar",
-            "--no-talk-name=org.kde.kconfig.notify",
-            "--no-talk-name=org.kde.KGlobalSettings"
+            "--talk-name=com.canonical.AppMenu.Registrar"
     ],
     "build-options": {
         "no-debuginfo": true,
