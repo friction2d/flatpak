@@ -28,30 +28,25 @@ title: Friction Flatpak Repository
   pre { overflow: hidden !important;white-space: pre-wrap !important;word-wrap: break-word !important; }
 </style>
 
-This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide rolling builds for **stable** *(v1.0)* and **devel** *(main)*.
+This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide **rolling** builds *(Monday and Friday)* for **stable** and **devel**.
 
 <div class="button-container">
   <a href="https://flatpak.friction.graphics/friction-stable.flatpakref" class="btn-install btn-stable">
-    Stable
-    <span class="btn-subtext">Recommended</span>
+    Stable Branch
+    <span class="btn-subtext">Production</span>
   </a>
   <a href="https://flatpak.friction.graphics/friction-devel.flatpakref" class="btn-install btn-devel">
-    Devel
+    Devel Branch
     <span class="btn-subtext">Cutting-edge</span>
   </a>
 </div>
-
-* Up-to-Date Shared Runtimes
-* Enhanced Security
-* Desktop Integration
-* Efficient Updates
 
 ---
 
 If you prefer the command line, follow these steps:
 
 ```
-flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak remote-add --user --if-not-exists friction https://flatpak.friction.graphics/friction.flatpakrepo
-flatpak install --user friction graphics.friction.Friction
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --if-not-exists friction https://flatpak.friction.graphics/friction.flatpakrepo
+flatpak install friction graphics.friction.Friction
 ```
