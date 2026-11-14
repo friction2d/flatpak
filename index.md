@@ -28,15 +28,15 @@ title: Friction Flatpak Repository
   pre { overflow: hidden !important;white-space: pre-wrap !important;word-wrap: break-word !important; }
 </style>
 
-This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide **rolling** builds *(Monday and Friday)* for **stable** and **devel**.
+This is the official Flatpak repository for [**Friction**](https://friction.graphics). We provide **rolling** builds for **stable** *(on changes)* and **devel** *(Monday and Friday)*.
 
 <div class="button-container">
   <a href="https://flatpak.friction.graphics/friction-stable.flatpakref" class="btn-install btn-stable">
-    Stable Branch
+    Stable Branch (v1.0)
     <span class="btn-subtext">Production</span>
   </a>
   <a href="https://flatpak.friction.graphics/friction-devel.flatpakref" class="btn-install btn-devel">
-    Devel Branch
+    Devel Branch (v1.1)
     <span class="btn-subtext">Cutting-edge</span>
   </a>
 </div>
